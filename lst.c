@@ -84,7 +84,7 @@ int main() {
           }
         }
 
-        for (int j=0; j<n; j++) { //Quando for a menor tarefa, faz algo. Senao, faz algo.
+        for (int j=0; j<n; j++) {
           if (j == lst) {
             if (tasks[j].s == DONE) {
               grade[i] = '.';

@@ -1,0 +1,3 @@
+diff -wb tests/lst-000.res lst-000.out
+
+gcc -o lst lst.c
