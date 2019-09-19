@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 #define MAX_N 26
 #define MAX_T 2048
@@ -56,7 +57,7 @@ int main() {
         
         for (i = 0; i <= t; i++) {
             for (int j=0; j<n; j++) {
-                if ((tasks[j].c_left > 0) && (i%tasks[j].d == 0) && i > 0) {
+                if ((tasks[j].c_left > 0) && (tasks[j].slack < 0) && i > 0) {
                     tasks[j].s = DELAYED;
                 }
                 else if (tasks[j].c_left == 0) {
@@ -86,9 +87,9 @@ int main() {
             
             for (int j=0; j<n; j++) {
                 if (j == lst) {
+                    bool idle = false;
                     if ((i > 0) && (tasks[j].s == DONE) && (grade[i - 1] != '.')) {
-                        num_preemp++;
-                        num_trocas_cont++;
+                        if (i < t) { idle = true; num_preemp++; num_trocas_cont++; }
                     } else {
                         if ((i > 0) && (grade[i - 1] != tasks[j].id)) {
                             int idx = indexOfTaskByID(tasks, n, grade[i - 1]);
@@ -97,13 +98,11 @@ int main() {
                             }
                         }
                     }
-                    if (tasks[j].s != DELAYED) {
-                        if ((i > 0) &&
-                            ((grade[i - 1] == tasks[j].id_d) ||
-                             (grade[i - 1] != tasks[j].id && grade[i - 1] != tasks[j].id_d))) {
-                                
-                                num_trocas_cont++;
-                            }
+                    if (tasks[j].s != DELAYED && i > 0 && grade[i - 1] == tasks[j].id_d) {
+                        num_trocas_cont++;
+                    }
+                    if ((i > 0) && (grade[i - 1] != tasks[j].id && grade[i - 1] != tasks[j].id_d && idle == false)) {
+                        num_trocas_cont++;
                     }
                 } else {
                     if (tasks[j].s != DONE) {
