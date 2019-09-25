@@ -87,8 +87,8 @@ int main() {
             
             for (int j=0; j<n; j++) {
                 if (j == lst) {
-                    bool idle = false;
-                    if ((i > 0) && (tasks[j].s == DONE) && (grade[i - 1] != '.')) {
+                    bool idle = grade[i - 1] == '.' && tasks[j].s == DONE;
+                    if ((i > 0) && (tasks[j].s == DONE) && (idle == false)) {
                         if (i < t) { idle = true; num_preemp++; num_trocas_cont++; }
                     } else {
                         if ((i > 0) && (grade[i - 1] != tasks[j].id)) {
